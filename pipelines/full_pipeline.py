@@ -1,10 +1,13 @@
 import os
 import json
 from agents.comment_agent import CommentAgent
+from agents.question_gen_agent import QuestionGenAgent
 
 class FullPipeline:
     def __init__(self, base_path: str):
         self.comment_agent = CommentAgent()
+        self.question_gen_agent = QuestionGenAgent()
+        
         self.processed_dir_path = os.path.join(base_path, "data", "processed")
         if not os.path.exists(self.processed_dir_path):
             os.makedirs(self.processed_dir_path)
@@ -23,9 +26,7 @@ class FullPipeline:
         qa_json_path = os.path.join(self.qa_dir_path, f"qa_{id}.json")
         eval_json_path = os.path.join(self.eval_dir_path, f"eval_{id}.json")
         
-        
-
-        # 개별 processed.json 생성
+        # 개별 processed.json 생성 / 불러오기
         if not os.path.exists(processed_json_path):
             processed_data={}
             processed_data[id] = {"department":department,
@@ -36,7 +37,7 @@ class FullPipeline:
         
         # comment가 없을 경우 gpt로 값 생성
         if  not processed_data[id].get("comment"):
-            # Comment 생성
+            # comment 생성
             comment = self.comment_agent.generate_comment(
                 department=department,
                 document=document
@@ -44,6 +45,22 @@ class FullPipeline:
             processed_data[id]["comment"]=comment
         
         with open(processed_json_path, "w", encoding="utf-8") as f:
+            json.dump(processed_data, f, ensure_ascii=False, indent=4)
+        
+        # qa 없을 경우 gpt로 값 생성
+        if  not processed_data[id].get("qa"):
+            # qa 생성
+            questions = self.question_gen_agent.generate_questions(
+                department=department,
+                document=document,
+                comment=comment
+            )
+            
+            # answers = 
+            
+            processed_data[id]["qa"]={question:[] for question in questions}
+        
+        with open(qa_json_path, "w", encoding="utf-8") as f:
             json.dump(processed_data, f, ensure_ascii=False, indent=4)
         
         

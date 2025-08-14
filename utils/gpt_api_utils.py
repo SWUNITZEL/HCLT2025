@@ -39,7 +39,7 @@ def call_gpt(system_prompt, user_prompt):
             }    
         ],
         temperature=TEMPERATURE,
-        top_p=0.7,
+        top_p=0.8,
         reasoning={},
         text={},
         store=False,
