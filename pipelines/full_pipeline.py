@@ -2,11 +2,13 @@ import os
 import json
 from agents.comment_agent import CommentAgent
 from agents.question_gen_agent import QuestionGenAgent
+from agents.priority_agent import PriorityAgent
 
 class FullPipeline:
     def __init__(self, base_path: str):
         self.comment_agent = CommentAgent()
         self.question_gen_agent = QuestionGenAgent()
+        self.priority_agent = PriorityAgent()
         
         self.processed_dir_path = os.path.join(base_path, "data", "processed")
         if not os.path.exists(self.processed_dir_path):
@@ -59,10 +61,14 @@ class FullPipeline:
                 document=document,
                 comment=comment
             )
+            ranked_questions = self.priority_agent.generate_priority(
+                department=department,
+                questions=questions,
+            )
             
             # answers = 
             
-            processed_data[id]["qa"]={question:[] for question in questions}
+            processed_data[id]["qa"]=ranked_questions
         
         with open(qa_json_path, "w", encoding="utf-8") as f:
             json.dump(processed_data, f, ensure_ascii=False, indent=4)
