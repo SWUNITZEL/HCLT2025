@@ -1,0 +1,4 @@
+/data
+.env
+/config/prompts/*.txt
+*/__pycache__
