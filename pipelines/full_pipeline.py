@@ -29,8 +29,10 @@ class FullPipeline:
         # 개별 processed.json 생성 / 불러오기
         if not os.path.exists(processed_json_path):
             processed_data={}
-            processed_data[id] = {"department":department,
-                                  "document":document}
+            processed_data[id] = {
+                "department":department,
+                "document":document
+                }
         else:
             with open(processed_json_path, "r", encoding="utf-8") as f:
                 processed_data = json.load(f)
@@ -43,6 +45,8 @@ class FullPipeline:
                 document=document
             )
             processed_data[id]["comment"]=comment
+        else:
+            comment = processed_data[id]["comment"]
         
         with open(processed_json_path, "w", encoding="utf-8") as f:
             json.dump(processed_data, f, ensure_ascii=False, indent=4)

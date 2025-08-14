@@ -1,5 +1,5 @@
+import re
 from utils.gpt_api_utils import call_gpt, load_prompt
-
 class QuestionGenAgent:
     def __init__(self, prompt_path="config/prompts/question_gen_agent.txt"):
         self.prompt_path = prompt_path
@@ -19,5 +19,6 @@ class QuestionGenAgent:
         system_prompt, user_prompt= prompt.split("---", 1)
         
         # ChatGPT API 호출
-        comment = call_gpt(system_prompt, user_prompt)
-        return comment
+        result = call_gpt(system_prompt, user_prompt)
+        questions = [re.sub(r'^\d+\.\s*', '', question).strip() for question in result.split("\n") if question.strip() != ""]
+        return questions
