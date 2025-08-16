@@ -20,5 +20,5 @@ class QuestionGenAgent:
         
         # ChatGPT API 호출
         result = call_gpt(system_prompt, user_prompt)
-        questions = [re.sub(r'^\d+\.\s*', '', question).strip() for question in result.split("\n") if question.strip() != ""]
+        questions = [re.sub(r'^\(?\d+\)?\.?\s*', '', question).strip() for question in result.split("\n") if question.strip() != ""]
         return questions

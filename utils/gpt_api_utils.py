@@ -43,6 +43,6 @@ def call_gpt(system_prompt, user_prompt):
         reasoning={},
         text={},
         store=False,
-        max_output_tokens=2048
+        max_output_tokens=4096
     )
     return response.output_text
