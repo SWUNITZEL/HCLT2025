@@ -21,8 +21,8 @@ Follow these instructions strictly:
 Answer format:
 (index). level:(difficulty level)\t(Question in Korean, 2 sentences max)\n
 
-[comment] 
+Comment: 
 {comment}
 
-[document]
+Document:
 {document} 

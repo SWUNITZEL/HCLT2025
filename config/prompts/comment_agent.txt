@@ -17,5 +17,5 @@ Evaluation factors:
 Answer format:
 평가: (in Korean, 2 paragraphs max, each paragraph has at least 3 sentences)
 
-[document]
+Document:
 {document}
