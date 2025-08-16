@@ -1,12 +1,14 @@
 import os
 import json
-from pipelines.full_pipeline import FullPipeline
+from pipelines.ground_truth_gen_pipeline import GroundTruthGenPipeline
 from multiprocessing import Pool, cpu_count
 
 def process_doc(args):
-    """멀티프로세싱에서 호출할 함수"""
+    """
+    멀티프로세싱에서 호출할 함수
+    """
     id, department, document, base_dir = args
-    pipeline = FullPipeline(base_dir)
+    pipeline = GroundTruthGenPipeline(base_dir)
     print(f"처리 중인 doc ID: {id}")
     pipeline.run(id, department, document)
     return id
