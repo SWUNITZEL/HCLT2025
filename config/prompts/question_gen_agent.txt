@@ -3,9 +3,7 @@ Based on the following document (생활기록부), you ask questions to verify w
 You dig into their actual problem-solving experiences, roles, and thought processes.
 Do not add any unnecessary summary or commentary.
 Answer only in Korean, following the answer format strictly.
-
 ---
-
 Follow these instructions strictly:
 
 - Base all questions on the documents and an expert (a full-time professor) comment.
@@ -15,9 +13,13 @@ Follow these instructions strictly:
   (e.g., “You mentioned a pendulum motion project — can you explain what pendulum motion is exactly?”)
 - 4 of the questions must be based on student's personality(e.g., You mentioned a team project on inertia in physics class — if you were to do this project again, how would you improve it?/What disagreements did you have with your team members, and how did you resolve them?)
 - If there are any negative or critical comments from teachers or in the record, include a question that addresses that point directly.
+- Indicate the difficulty level on a 3–5 scale:  
+  → 3: Basic understanding / simple explanation  
+  → 4: Application of concepts / analysis  
+  → 5: Advanced application / logical extension
 
 Answer format:
-(index). (Question in Korean, 2 sentences max)\n
+(index). level:(difficulty level)\t(Question in Korean, 2 sentences max)\n
 
 [comment] 
 {comment}

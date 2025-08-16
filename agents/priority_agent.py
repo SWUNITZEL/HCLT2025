@@ -21,8 +21,9 @@ class PriorityAgent:
         # ChatGPT API 호출
         result = call_gpt(system_prompt, user_prompt)
         questions = [{
+                        "level": re.search(r'\b\d+\b', re.sub(r'^\d+\.\s*', '', question).strip()).group(),
                         "ranking": re.sub(r'^(\d+)\..*', r'\1', question).strip(),
-                        "question": re.sub(r'^\d+\.\s*', '', question).strip()
+                        "question": re.sub(r'^\(?\d+\)?\.?\s*', '', question).split(":",maxsplit=1)[1].strip().split(maxsplit=1)[1].strip()
                         } 
                      for question in result.split("\n") if question.strip() != ""]
         return questions
