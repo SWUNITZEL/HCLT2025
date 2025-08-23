@@ -32,6 +32,9 @@ class GroundTruthAgent:
             if len(answers) < 2:
                 answers = re.findall(r'["“](.*?)["”]', val, re.DOTALL)
                 answers = [a.strip() for a in answers if a.strip()]    
+            if len(answers) < 2:
+                answers = re.split(r'\.\s*,|\s*,', val)
+                answers = [m.strip().strip('()"') for m in answers if m.strip()]
             ground_truth[key] = answers
             
         return ground_truth

@@ -23,7 +23,8 @@ class PriorityAgent:
         questions = [{
                         "level": re.search(r'\b\d+\b', re.sub(r'^\d+\.\s*', '', question).strip()).group(),
                         "ranking": re.sub(r'^(\d+)\..*', r'\1', question).strip(),
-                        "question": re.sub(r'^\(?\d+\)?\.?\s*', '', question).split(":",maxsplit=1)[1].strip().split(maxsplit=1)[1].strip()
+                        "question": re.sub(r'^\(?\d+\)?\.?\s*', '', question).split(":",maxsplit=1)[1].strip().split(maxsplit=1)[1].strip().split("]", maxsplit=1)[1].strip(),
+                        "category": re.sub(r'^\(?\d+\)?\.?\s*', '', question).split(":",maxsplit=1)[1].strip().split(maxsplit=1)[1].strip().split("]", maxsplit=1)[0].split("[", maxsplit=1)[1].strip()
                         } 
                      for question in result.split("\n") if question.strip() != ""]
         return questions
