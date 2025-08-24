@@ -20,7 +20,7 @@ class GroundTruthAgent:
         system_prompt, user_prompt= prompt.split("---", 1)
         
         # ChatGPT API 호출
-        result = call_gpt(system_prompt, user_prompt)
+        result = call_gpt(system_prompt, user_prompt, 0.8)
         
         # 정규식으로 groundtruth 전처리
         pattern = re.compile(r'\(?(\d+)\)?\s*:\s*\[(.*?)\]', re.DOTALL)
@@ -32,9 +32,12 @@ class GroundTruthAgent:
             if len(answers) < 2:
                 answers = re.findall(r'["“](.*?)["”]', val, re.DOTALL)
                 answers = [a.strip() for a in answers if a.strip()]    
-            if len(answers) < 2:
-                answers = re.split(r'\.\s*,|\s*,', val)
-                answers = [m.strip().strip('()"') for m in answers if m.strip()]
+            else:
+                if len(answers) < 2:
+                    answers = re.split(r'\.\s*,', val)
+                    answers = [m.strip().strip('()"') for m in answers if m.strip()]
+                else:
+                    print(result)
             ground_truth[key] = answers
             
         return ground_truth

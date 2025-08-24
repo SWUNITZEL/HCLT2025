@@ -72,8 +72,9 @@ class GroundTruthGenPipeline:
             questions = []
             for qa in processed_data[id]["qa"]:
                 ranking = qa.get("ranking")
+                category = qa.get("category")
                 question = qa.get("question")
-                questions.append(f"{ranking}. {question}")
+                questions.append(f"{ranking}. [{category}]{question}")
             
             if questions != []:
                 ground_truth = self.ground_truth_agent.generate_ground_truth(
