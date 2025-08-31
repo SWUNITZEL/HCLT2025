@@ -15,7 +15,7 @@ def load_prompt(file_path, **kwargs):
         template = f.read()
     return template.format(**kwargs)
 
-def call_gpt(system_prompt, user_prompt):
+def call_gpt(system_prompt, user_prompt, temperature=TEMPERATURE):
     response = client.responses.create(
         model=MODEL_NAME,
         input=[
@@ -38,7 +38,7 @@ def call_gpt(system_prompt, user_prompt):
                 ]
             }    
         ],
-        temperature=TEMPERATURE,
+        temperature=temperature,
         top_p=0.8,
         reasoning={},
         text={},
