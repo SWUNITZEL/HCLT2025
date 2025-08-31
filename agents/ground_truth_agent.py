@@ -22,22 +22,25 @@ class GroundTruthAgent:
         # ChatGPT API 호출
         result = call_gpt(system_prompt, user_prompt, 0.8)
         
-        # 정규식으로 groundtruth 전처리
-        pattern = re.compile(r'\(?(\d+)\)?\s*:\s*\[(.*?)\]', re.DOTALL)
-        matches = pattern.findall(result)
+        ground_truth={}
+        # 정규식으로 groundtruth 전처리        
+        # 패턴 1
+        pattern1 = re.compile(r'\(?(\d+)\)?\s*:\s*\[(.*?)\]', re.DOTALL)
+        matches1 = pattern1.findall(result)
 
-        ground_truth = {}
-        for key, val in matches:
-            answers = [m.strip().strip('()"') for m in val.split('.,') if m.strip()]
-            if len(answers) < 2:
-                answers = re.findall(r'["“](.*?)["”]', val, re.DOTALL)
-                answers = [a.strip() for a in answers if a.strip()]    
-            else:
-                if len(answers) < 2:
-                    answers = re.split(r'\.\s*,', val)
-                    answers = [m.strip().strip('()"') for m in answers if m.strip()]
-                else:
-                    print(result)
+        for key, val in matches1:
+            # 쉼표 기준으로 나누고, 빈 문자열 제거
+            answers = [a.strip().strip('()"') for a in val.split('.,') if a.strip()]
+            ground_truth[key] = answers
+
+        # 2) 괄호 패턴: (숫자): [(답변1), (답변2), ...]
+        pattern2 = re.compile(r'\(?(\d+)\)?\s*:\s*\[\s*(\([^\]]*?\))\s*\]', re.DOTALL)
+        matches2 = pattern2.findall(result)
+
+        for key, val in matches2:
+            # 괄호 안 문자열 추출
+            answers = re.findall(r'\((.*?)\)', val, re.DOTALL)
+            answers = [a.strip() for a in answers if a.strip()]
             ground_truth[key] = answers
             
         return ground_truth

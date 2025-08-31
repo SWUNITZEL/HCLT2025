@@ -1,12 +1,14 @@
 import os
 import json
 import traceback
+from agents.document_agent import DocumentAgent
 from agents.comment_agent import CommentAgent
 from agents.question_gen_agent import QuestionGenAgent
 from agents.priority_agent import PriorityAgent
 from agents.ground_truth_agent import GroundTruthAgent
 class GroundTruthGenPipeline:
     def __init__(self, base_path: str):
+        self.document_agent = DocumentAgent()
         self.comment_agent = CommentAgent()
         self.question_gen_agent = QuestionGenAgent()
         self.priority_agent = PriorityAgent()
@@ -40,13 +42,20 @@ class GroundTruthGenPipeline:
             else:
                 with open(processed_json_path, "r", encoding="utf-8") as f:
                     processed_data = json.load(f)
+                    
+            
+            summary = self.document_agent.generate_document(
+                department=department,
+                document=document
+            )
+            processed_data[id]["summary"]=summary
             
             # comment가 없을 경우 gpt로 값 생성
             if  not processed_data[id].get("comment"):
                 # comment 생성
                 comment = self.comment_agent.generate_comment(
                     department=department,
-                    document=document
+                    document=summary
                 )
                 processed_data[id]["comment"]=comment
             else:
