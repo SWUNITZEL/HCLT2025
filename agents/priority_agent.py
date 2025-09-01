@@ -10,7 +10,7 @@ class PriorityAgent:
         question = re.sub(r'^\d+\).?\s*', '', question)
         # category 뒤 나머지 텍스트만 추출
         parts = re.split(r'\[.*?\]', question, maxsplit=1)
-        return parts[-1].strip() if parts else question.strip()
+        return parts[-1].strip().replace('\"',"").replace("'","") if parts else question.strip().replace('\"',"").replace("'","")
 
     def parse_question(self, question: str) -> dict:
         # ranking 추출 (앞번호)

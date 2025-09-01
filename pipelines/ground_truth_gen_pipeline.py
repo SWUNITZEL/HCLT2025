@@ -43,7 +43,6 @@ class GroundTruthGenPipeline:
                 with open(processed_json_path, "r", encoding="utf-8") as f:
                     processed_data = json.load(f)
                     
-            
             summary = self.document_agent.generate_document(
                 department=department,
                 document=document
