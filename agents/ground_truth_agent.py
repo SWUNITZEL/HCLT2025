@@ -21,7 +21,7 @@ class GroundTruthAgent:
         
         # ChatGPT API 호출
         result = call_gpt(system_prompt, user_prompt, 0.8)
-        
+        print(result)
         ground_truth={}
         # 정규식으로 groundtruth 전처리        
         # 패턴 1
@@ -40,7 +40,7 @@ class GroundTruthAgent:
         for key, val in matches2:
             # 괄호 안 문자열 추출
             answers = re.findall(r'\((.*?)\)', val, re.DOTALL)
-            answers = [a.strip() for a in answers if a.strip()]
+            answers = [a.strip().replace('"',"").replace("'","") for a in answers if a.strip()]
             ground_truth[key] = answers
             
         return ground_truth
