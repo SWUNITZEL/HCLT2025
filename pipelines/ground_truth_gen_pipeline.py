@@ -114,35 +114,40 @@ class GroundTruthGenPipeline:
                     processed_data = json.load(f)
 
                 qa_list = processed_data.get(id, {}).get("qa", [])
+                needs_processing = any(
+                    "ground_truth" not in item or not isinstance(item["ground_truth"], list) or len(item["ground_truth"]) < 3
+                    for item in qa_list
+                )
+
                 if not qa_list:
                     print(f"No QA data found for id={id}")
                     return None
+                elif len(qa_list)<50 | needs_processing :
+                    questions = [
+                        f"{item.get('ranking')}. [{item.get('category')}] {item.get('question')}"
+                        for item in qa_list
+                        if not (
+                            "ground_truth" in item
+                            and isinstance(item["ground_truth"], list)
+                            and len(item["ground_truth"]) >= 3
+                        )
+                    ]
 
-                questions = [
-                    f"{item.get('ranking')}. [{item.get('category')}] {item.get('question')}"
-                    for item in qa_list
-                    if not (
-                        "ground_truth" in item
-                        and isinstance(item["ground_truth"], list)
-                        and len(item["ground_truth"]) >= 3
-                    )
-                ]
+                    ground_truth = {}
+                    if questions:
+                        ground_truth = self.ground_truth_agent.generate_ground_truth(
+                            department=department,
+                            document=document,
+                            questions=questions,
+                        )
 
-                ground_truth = {}
-                if questions:
-                    ground_truth = self.ground_truth_agent.generate_ground_truth(
-                        department=department,
-                        document=document,
-                        questions=questions,
-                    )
-
-                for item in qa_list:
-                    rank = str(item.get("ranking"))
-                    if ground_truth and rank in ground_truth:
-                        item["ground_truth"] = ground_truth[rank]
-            
-                with open(qa_ground_truth_json_path, "w", encoding="utf-8") as f:
-                    json.dump(processed_data, f, ensure_ascii=False, indent=4)
+                    for item in qa_list:
+                        rank = str(item.get("ranking"))
+                        if ground_truth and rank in ground_truth:
+                            item["ground_truth"] = ground_truth[rank]
+                
+                    with open(qa_ground_truth_json_path, "w", encoding="utf-8") as f:
+                        json.dump(processed_data, f, ensure_ascii=False, indent=4)
                 
         except FileNotFoundError as fnf_error:
             print(f"File not found error: {fnf_error}")

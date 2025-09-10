@@ -4,6 +4,7 @@ from multiprocessing import Pool, cpu_count
 from pipelines.ground_truth_gen_pipeline import GroundTruthGenPipeline
 
 def process_doc(args):
+    """단일 문서 처리"""
     id, department, document, base_dir = args
     pipeline = GroundTruthGenPipeline(base_dir)
     return pipeline.run(id=id, department=department, document=document)
@@ -37,30 +38,42 @@ def check_missing_ids(base_dir, ids):
             missing_ids.append(i)
     return missing_ids
 
+def safe_process(ids_to_process, raw, base_dir, num_processes):
+    if not ids_to_process:
+        return
+
+    args_list = [(id, raw[id]["department"], raw[id]["document"], base_dir) for id in ids_to_process]
+
+    # 멀티프로세싱
+    with Pool(processes=num_processes) as pool:
+        results = pool.map(process_doc, args_list)
+
+    # 마지막 ID는 단일 프로세스로 한번 더 안전 처리
+    last_id = ids_to_process[-1]
+    process_doc((last_id, raw[last_id]["department"], raw[last_id]["document"], base_dir))
+
+    return results
+
 if __name__ == "__main__":
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     RAW_PATH = os.path.join(BASE_DIR, "data", "raw", "raw.json")
-    
+
     with open(RAW_PATH, "r", encoding="utf-8") as f:
         raw = json.load(f)
     ids = list(raw.keys())
 
-    # 1차 실행
-    args_list = [(id, raw[id]["department"], raw[id]["document"], BASE_DIR) for id in ids]
     num_processes = max(cpu_count() - 1, 1)
-    with Pool(processes=num_processes) as pool:
-        results = pool.map(process_doc, args_list)
 
-    print("모든 문서 처리 완료:", results)
+    # 1차 실행: 전체 문서
+    safe_process(ids, raw, BASE_DIR, num_processes)
+    print("1차 처리 완료")
 
-    # 누락된 id 체크
+    # 누락된 ID 확인
     missing_ids = check_missing_ids(BASE_DIR, ids)
     if missing_ids:
         print("누락된 ground_truth가 있는 ID:", missing_ids)
-        # 2차 실행 (누락된 것만)
-        args_list = [(id, raw[id]["department"], raw[id]["document"], BASE_DIR) for id in missing_ids]
-        with Pool(processes=num_processes) as pool:
-            results = pool.map(process_doc, args_list)
-        print("누락된 ID 재처리 완료:", results)
+        # 2차 실행: 누락된 ID만 처리
+        safe_process(missing_ids, raw, BASE_DIR, num_processes)
+        print("누락된 ID 재처리 완료")
     else:
-        pass
+        print("누락된 ID 없음")
