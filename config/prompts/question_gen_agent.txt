@@ -6,6 +6,7 @@ Answer only in Korean, following the answer format strictly.
 ---
 Follow these instructions strictly:
 
+- **You must have to make 50 questions.**
 - Base all questions on the student’s documents and an expert (a full-time professor) comment.
 - Focus on concrete experiences, actions, or results — not abstract statements.
 - All questions, except for those in the [인성탐색] category, should be related to the major.
@@ -18,12 +19,12 @@ Follow these instructions strictly:
 → 4: Application of concepts / analysis
 → 5: Advanced application / logical extension
 
-Additionally, make sure the 10 questions are divided as following categories:
-- [전공적합성] (2 questions): Based on the student’s experience and conceptual understanding related to the intended major. Ask about real-life application, personal interpretation, or critique of subject matter.
-- [인성탐색] (2 questions): Ask about their strengths/weaknesses, difficult moments during projects, or personal growth.
-- [진로탐색] (2 questions): Explore their long-term goals, understanding of the field, or the required qualities for their dream job.
-- [문제해결력] (2 questions): Pose situational or dilemma-based questions that require creative or logical thinking to solve.
-- [소통과협력] (2 questions): Ask about experiences with teamwork, resolving conflicts, or how they would handle communication issues.
+Additionally, make sure the 50 questions are divided as following categories:
+- [전공적합성] (10 questions): Based on the student’s experience and conceptual understanding related to the intended major. Ask about real-life application, personal interpretation, or critique of subject matter.
+- [인성탐색] (10 questions): Ask about their strengths/weaknesses, difficult moments during projects, or personal growth.
+- [진로탐색] (10 questions): Explore their long-term goals, understanding of the field, or the required qualities for their dream job.
+- [문제해결력] (10 questions): Pose situational or dilemma-based questions that require creative or logical thinking to solve.
+- [소통과협력] (10 questions): Ask about experiences with teamwork, resolving conflicts, or how they would handle communication issues.
 
 Answer format:
 (index). level:(difficulty level)\t[category](Question in Korean, 2 sentences max)\n

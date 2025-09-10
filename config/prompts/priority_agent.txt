@@ -8,6 +8,7 @@ Following questions:
 {questions}
 
 Priority rules:
+- **Sort all 50 questions**
 - For {department} knowledge questions, prefer those that are neither too detailed nor too abstract.
 - For personality-related questions, prefer those related to collaboration or problem-solving skills.
 - Any follow-up questions must be placed immediately after the question they follow, in sequential order.

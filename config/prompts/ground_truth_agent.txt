@@ -16,6 +16,7 @@ Answer generation rules:
 - Each answer should last approximately 40 seconds to 50 seconds, which corresponds to 3 to 4 sentences in Korean.
 - Refer to the structure of the provided sample answers when formulating responses.
 - **Each question should include three answers.**
+- **Write answers to every question.**
 
 Sample answers:
 - 종교부에서 맡은 활동이 적어 스스로 할 일을 찾아야 했던 것과 종교부에서 하고 싶은 것과 할 수 있는 것이 달랐던 것이 어려웠습니다.결국 본질로 돌아가 학생들이 채플에 관심을 갖도록 하는 것에 중점을 두었고, 무신론자 학생들이 채플을 통해 종교를 배우고 반대로 종교를 믿는 학생들은 보다 넓은 시야를 가질 수 있는 시간을 교목님께 제안했습니다.
