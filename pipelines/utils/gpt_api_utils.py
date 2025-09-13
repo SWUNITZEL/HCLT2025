@@ -18,7 +18,7 @@ ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 CLAUDE_MODEL = os.getenv("CLAUDE_MODEL", "claude-3-5-sonnet-20241022")
 
 # Gemini 설정
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "AIzaSyCmN3o6I_w724YdD2yT_zD7225w1h4Q7Dg")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-1.5-pro")
 
 # 클라이언트 초기화
